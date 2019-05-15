@@ -91,17 +91,24 @@ public class ChatsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
+                boolean flagCheck = true;
 
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
+
 
                     for(String id : usersList) {
                         if (user.getId().equals(id)) {
                             if (mUsers.size() != 0) {
                                 for (User user1 : mUsers) {
                                     if(!user.getId().equals(user1.getId())) {
-                                        mUsers.add(user);
+                                        flagCheck = false;
+                                    } else {
+                                        flagCheck = true;
                                     }
+                                }
+                                if (flagCheck == false) {
+                                    mUsers.add(user);
                                 }
                             } else {
                                 mUsers.add(user);
